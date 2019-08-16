@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 // Load env
 dotenv.config({ path: './config.env' });
 
+// Init app
 const app = express();
 
 // Dev logging
@@ -15,8 +16,10 @@ if (process.env.NODE_ENV === 'development') {
 // Profile routes
 app.use('/api/v1/profile', require('./routes/apiv1/profile'));
 
+// Init port
 const port = process.env.PORT || 8000;
 
+// Start listening for requests
 app.listen(port, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`);
 });
