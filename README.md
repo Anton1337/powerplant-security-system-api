@@ -1,8 +1,8 @@
-﻿### Powerplant Security System Api
+﻿# Powerplant Security System Api
  
  ## Endpoints
  
- # Clock-ins
+ ### Clock-ins
   Get All Clock-ins: (GET)
   - Local env: http://localhost:5000/api/v1/clocks/clockins
   - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/clocks/clockins
