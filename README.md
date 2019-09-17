@@ -1,7 +1,7 @@
 ﻿# Powerplant Security System Api
  
 ## Quick Start
-```
+```bash
 # Install Express dependencies
 npm install
 
