@@ -2,6 +2,15 @@
  
  ## Endpoints
  
+### Quick Start
+```
+# Install Express dependencies
+npm install
+
+# Run Server
+npm run server
+```
+ 
 ### Clock-ins
   Get All Clock-ins: (GET)
   - Local env: http://localhost:5000/api/v1/clocks/clockins
