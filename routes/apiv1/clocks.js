@@ -110,7 +110,7 @@ router.get('/clockouts/:id', async (req, res) => {
 // @access Public
 router.post('/clockouts', async (req, res) => {
   try {
-    const newClockout = new Clockout({}); // no fields needed at the moment.
+    const newClockout = new Clockout({}); // no fields needed for the moment.
     const clockout = await newClockout.save();
 
     res.json(clockout);
