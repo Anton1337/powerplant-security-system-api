@@ -17,6 +17,14 @@
   
  # Clock-outs
  Get All Clock-outs: (GET)
- - Local env: http://localhost:5000/api/v1/clocks/clockins
- - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/clocks/clockins
+ - Local env: http://localhost:5000/api/v1/clocks/clockouts
+ - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/clocks/clockouts
+ 
+ Get Clock-out by ID: (GET)
+ - Local env: http://localhost:5000/api/v1/clocks/clockouts/:id
+ - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/clocks/clockouts/:id
+ 
+ Post Clock-out: (POST)
+ - Local env: http://localhost:5000/api/v1/clocks/clockouts
+ - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/clocks/clockouts/
 
