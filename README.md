@@ -1,8 +1,6 @@
 ﻿# Powerplant Security System Api
  
- ## Endpoints
- 
-### Quick Start
+## Quick Start
 ```
 # Install Express dependencies
 npm install
@@ -10,6 +8,8 @@ npm install
 # Run Server
 npm run server
 ```
+
+## Endpoints
  
 ### Clock-ins
   Get All Clock-ins: (GET)
