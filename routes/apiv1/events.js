@@ -43,45 +43,24 @@ router.get('/:id', async (req, res) => {
 // @route  POST /api/v1/event/start
 // @desc   Start event on clockin.
 // @access Public
-router.post(
-  '/start',
-  [
-    check('isOn', 'IsOn is required')
-      .not()
-      .isEmpty(),
-    check('value', 'Value is required')
-      .not()
-      .isEmpty(),
-    check('currentRoom', 'CurrentRoom is required')
-      .not()
-      .isEmpty(),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+router.post('/start', async (req, res) => {
+  try {
+    const newEvent = new Event({
+      //hazmat: [{ isOn }],
+      //k: [{ value }],
+      //room: [{ currentRoom }],
+    });
 
-    try {
-      const { isOn, value, currentRoom } = req.body;
+    const event = await newEvent.save();
 
-      const newEvent = new Event({
-        hazmat: [{ isOn }],
-        k: [{ value }],
-        room: [{ currentRoom }],
-      });
-
-      const event = await newEvent.save();
-
-      res.json(event);
-    } catch (err) {
-      console.error(err.message);
-      return res.status(500).json({
-        msg: 'Server Error',
-      });
-    }
-  },
-);
+    res.json(event);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({
+      msg: 'Server Error',
+    });
+  }
+});
 
 // @route  POST /api/v1/event/hazmat
 // @desc   Post new hazmat change.
