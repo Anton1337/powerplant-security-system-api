@@ -46,7 +46,7 @@ router.get('/:id', async (req, res) => {
 router.post(
   '/start',
   [
-    check('on', 'On is required')
+    check('isOn', 'IsOn is required')
       .not()
       .isEmpty(),
     check('value', 'Value is required')
@@ -63,15 +63,15 @@ router.post(
     }
 
     try {
-      const { on, value, currentRoom } = req.body;
+      const { isOn, value, currentRoom } = req.body;
 
       const newEvent = new Event({
-        hazmat: [{ on, date: Date.now }],
-        k: [{ value, date: Date.now }],
-        room: [{ currentRoom, date: Date.now }],
+        hazmat: [{ isOn }],
+        k: [{ value }],
+        room: [{ currentRoom }],
       });
 
-      const event = await event.save();
+      const event = await newEvent.save();
 
       res.json(event);
     } catch (err) {
@@ -89,7 +89,7 @@ router.post(
 router.post(
   '/hazmat',
   [
-    check('on', 'On is required')
+    check('isOn', 'IsOn is required')
       .not()
       .isEmpty(),
   ],
@@ -100,12 +100,12 @@ router.post(
     }
 
     try {
-      const { on } = req.body;
+      const { isOn } = req.body;
       const event = await Event.findOne().sort('-date');
 
       if (!event) return res.status(404).json({ msg: 'Event not found' });
 
-      event.hazmat.unshift({ on, date: Date.now });
+      event.hazmat.unshift({ isOn });
 
       await event.save();
 
@@ -144,7 +144,7 @@ router.post(
 
       if (!event) return res.status(404).json({ msg: 'Event not found' });
 
-      event.k.unshift({ value, date: Date.now });
+      event.k.unshift({ value });
 
       await event.save();
 
@@ -183,7 +183,7 @@ router.post(
 
       if (!event) return res.status(404).json({ msg: 'Event not found' });
 
-      event.room.unshift({ currentRoom, date: Date.now });
+      event.room.unshift({ currentRoom });
 
       await event.save();
 
@@ -211,6 +211,11 @@ router.post(
       .isEmpty(),
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
       const { radiation } = req.body;
       const event = await Event.findOne().sort('-date');
@@ -218,10 +223,11 @@ router.post(
       if (!event) return res.status(404).json({ msg: 'Event not found' });
 
       event.radiation = radiation;
+      event.clockout = new Date().toISOString();
 
       await event.save();
 
-      res.json(event.k);
+      res.json(event);
     } catch (err) {
       if (err.kind == 'ObjectId')
         return res.status(404).json({ msg: 'Event not found' });

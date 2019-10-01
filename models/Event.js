@@ -11,11 +11,12 @@ const EventSchema = new Schema({
   },
   hazmat: [
     {
-      on: {
+      isOn: {
         type: Boolean,
       },
       date: {
         type: Date,
+        default: Date.now,
       },
     },
   ],
@@ -26,6 +27,7 @@ const EventSchema = new Schema({
       },
       date: {
         type: Date,
+        default: Date.now,
       },
     },
   ],
@@ -36,6 +38,7 @@ const EventSchema = new Schema({
       },
       date: {
         type: Date,
+        default: Date.now,
       },
     },
   ],
