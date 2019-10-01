@@ -62,7 +62,7 @@ Start Event (clock-in): (POST)
 
 - Local env: http://localhost:5000/api/v1/events/start
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/start
-- Payload/Body: {
+ Payload/Body: {
   "isOn": true/false // If hazmat suit initially is on or off.
   "value": Integer // What the coefficient initial value is.
   "currentRoom": Integer between 1-3 // What room we initially start in.
@@ -72,7 +72,7 @@ Add hazmat change: (POST)
 
 - Local env: http://localhost:5000/api/v1/events/hazmat
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/hazmat
-- Payload/Body: {
+ Payload/Body: {
   "isOn": true/false // If hazmat suit is on or off.
   }
 
@@ -80,7 +80,7 @@ Add coefficient change: (POST)
 
 - Local env: http://localhost:5000/api/v1/events/k
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/k
-- Payload/Body: {
+ Payload/Body: {
   "value": Integer // What the coefficient value is.
   }
 
@@ -96,6 +96,6 @@ End Event (clock-out): (POST)
 
 - Local env: http://localhost:5000/api/v1/events/end
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/end
-- Payload/Body: {
+ Payload/Body: {
   "radiation": how much radiation we have accumulated during our shift.
   }
