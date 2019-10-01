@@ -9,14 +9,42 @@ const EventSchema = new Schema({
   clockout: {
     type: Date,
   },
-  hazmatsuit: {
-    type: Boolean,
-  },
-  k: {
-    type: Number,
-  },
+  hazmatsuit: [
+    {
+      on: {
+        type: Boolean,
+      },
+      date: {
+        type: Date,
+      },
+    },
+  ],
+  k: [
+    {
+      value: {
+        type: Number,
+      },
+      date: {
+        type: Date,
+      },
+    },
+  ],
+  room: [
+    {
+      currentRoom: {
+        type: Number,
+      },
+      date: {
+        type: Date,
+      },
+    },
+  ],
   radiation: {
     type: Number,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 

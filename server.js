@@ -26,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 // Route definitions
 app.use('/api/v1/test', require('./routes/apiv1/test'));
 app.use('/api/v1/clocks', require('./routes/apiv1/clocks'));
+app.use('/api/v1/events', require('./routes/apiv1/events'));
 
 // Handle production
 if (process.env.NODE_ENV === 'production') {
