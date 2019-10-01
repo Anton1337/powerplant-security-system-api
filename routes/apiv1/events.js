@@ -88,7 +88,7 @@ router.post(
 
       await event.save();
 
-      res.json(event.hazmat);
+      res.json(event);
     } catch (err) {
       if (err.kind == 'ObjectId')
         return res.status(404).json({ msg: 'Event not found' });
@@ -127,7 +127,7 @@ router.post(
 
       await event.save();
 
-      res.json(event.k);
+      res.json(event);
     } catch (err) {
       if (err.kind == 'ObjectId')
         return res.status(404).json({ msg: 'Event not found' });
@@ -166,7 +166,7 @@ router.post(
 
       await event.save();
 
-      res.json(event.room);
+      res.json(event);
     } catch (err) {
       if (err.kind == 'ObjectId')
         return res.status(404).json({ msg: 'Event not found' });
