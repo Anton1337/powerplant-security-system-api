@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 
 const Event = require('../../models/Event');
 
-// @route  GET /api/v1/clocks/clockins
-// @desc   Get all clock-ins
+// @route  GET /api/v1/event
+// @desc   Get all events
 // @access Public
-router.get('/events', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const events = await Event.find().sort({ date: -1 });
-    res.json(clockins);
+    res.json(events);
   } catch (err) {
     console.error(err.message);
     return res.status(500).json({
@@ -17,5 +18,220 @@ router.get('/events', async (req, res) => {
     });
   }
 });
+
+// @route  GET /api/v1/event/:id
+// @desc   Get event by ID
+// @access Public
+router.get('/:id', async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+
+    if (!event) return res.status(404).json({ msg: 'Event not found' });
+
+    res.json(event);
+  } catch (err) {
+    if (err.kind == 'ObjectId')
+      return res.status(404).json({ msg: 'Event not found' });
+
+    console.error(err.message);
+    return res.status(500).json({
+      msg: 'Server Error',
+    });
+  }
+});
+
+// @route  POST /api/v1/event/start
+// @desc   Start event on clockin.
+// @access Public
+router.post(
+  '/start',
+  [
+    check('on', 'On is required')
+      .not()
+      .isEmpty(),
+    check('value', 'Value is required')
+      .not()
+      .isEmpty(),
+    check('currentRoom', 'CurrentRoom is required')
+      .not()
+      .isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const { on, value, currentRoom } = req.body;
+
+      const newEvent = new Event({
+        hazmat: [{ on, date: Date.now }],
+        k: [{ value, date: Date.now }],
+        room: [{ currentRoom, date: Date.now }],
+      });
+
+      const event = await event.save();
+
+      res.json(event);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).json({
+        msg: 'Server Error',
+      });
+    }
+  },
+);
+
+// @route  POST /api/v1/event/hazmat
+// @desc   Post new hazmat change.
+// @access Public
+router.post(
+  '/hazmat',
+  [
+    check('on', 'On is required')
+      .not()
+      .isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const { on } = req.body;
+      const event = await Event.findOne().sort('-date');
+
+      if (!event) return res.status(404).json({ msg: 'Event not found' });
+
+      event.hazmat.unshift({ on, date: Date.now });
+
+      await event.save();
+
+      res.json(event.hazmat);
+    } catch (err) {
+      if (err.kind == 'ObjectId')
+        return res.status(404).json({ msg: 'Event not found' });
+
+      console.error(err.message);
+      return res.status(500).json({
+        msg: 'Server Error',
+      });
+    }
+  },
+);
+
+// @route  POST /api/v1/event/k
+// @desc   Post new k change.
+// @access Public
+router.post(
+  '/k',
+  [
+    check('value', 'Value is required')
+      .not()
+      .isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const { value } = req.body;
+      const event = await Event.findOne().sort('-date');
+
+      if (!event) return res.status(404).json({ msg: 'Event not found' });
+
+      event.k.unshift({ value, date: Date.now });
+
+      await event.save();
+
+      res.json(event.k);
+    } catch (err) {
+      if (err.kind == 'ObjectId')
+        return res.status(404).json({ msg: 'Event not found' });
+
+      console.error(err.message);
+      return res.status(500).json({
+        msg: 'Server Error',
+      });
+    }
+  },
+);
+
+// @route  POST /api/v1/event/room
+// @desc   Post new room change.
+// @access Public
+router.post(
+  '/room',
+  [
+    check('currentRoom', 'CurrentRoom is required')
+      .not()
+      .isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const { currentRoom } = req.body;
+      const event = await Event.findOne().sort('-date');
+
+      if (!event) return res.status(404).json({ msg: 'Event not found' });
+
+      event.room.unshift({ currentRoom, date: Date.now });
+
+      await event.save();
+
+      res.json(event.room);
+    } catch (err) {
+      if (err.kind == 'ObjectId')
+        return res.status(404).json({ msg: 'Event not found' });
+
+      console.error(err.message);
+      return res.status(500).json({
+        msg: 'Server Error',
+      });
+    }
+  },
+);
+
+// @route  POST /api/v1/event/end
+// @desc   End event with a clockout.
+// @access Public
+router.post(
+  '/end',
+  [
+    check('radiation', 'Radiation is required')
+      .not()
+      .isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      const { radiation } = req.body;
+      const event = await Event.findOne().sort('-date');
+
+      if (!event) return res.status(404).json({ msg: 'Event not found' });
+
+      event.radiation = radiation;
+
+      await event.save();
+
+      res.json(event.k);
+    } catch (err) {
+      if (err.kind == 'ObjectId')
+        return res.status(404).json({ msg: 'Event not found' });
+
+      console.error(err.message);
+      return res.status(500).json({
+        msg: 'Server Error',
+      });
+    }
+  },
+);
 
 module.exports = router;

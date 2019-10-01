@@ -9,7 +9,7 @@ const EventSchema = new Schema({
   clockout: {
     type: Date,
   },
-  hazmatsuit: [
+  hazmat: [
     {
       on: {
         type: Boolean,
