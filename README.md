@@ -62,40 +62,32 @@ Start Event (clock-in): (POST)
 
 - Local env: http://localhost:5000/api/v1/events/start
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/start
- Payload/Body: {
-  "isOn": true/false // If hazmat suit initially is on or off.
-  "value": Integer // What the coefficient initial value is.
-  "currentRoom": Integer between 1-3 // What room we initially start in.
-  }
 
 Add hazmat change: (POST)
 
 - Local env: http://localhost:5000/api/v1/events/hazmat
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/hazmat
- Payload/Body: {
-  "isOn": true/false // If hazmat suit is on or off.
-  }
+  Payload/Body:
+  - "isOn": true/false // If hazmat suit is on or off.
 
 Add coefficient change: (POST)
 
 - Local env: http://localhost:5000/api/v1/events/k
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/k
- Payload/Body: {
-  "value": Integer // What the coefficient value is.
-  }
+  Payload/Body:
+  - "value": Integer // What the coefficient value is.
 
 Add room change: (POST)
 
 - Local env: http://localhost:5000/api/v1/events/room
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/room
-- Payload/Body: {
-  "currentRoom": Integer between 1-3 // What room we are in now.
-  }
+- Payload/Body:
+
+  - "currentRoom": Integer between 1-3 // What room we are in now.
 
 End Event (clock-out): (POST)
 
 - Local env: http://localhost:5000/api/v1/events/end
 - Prod env: https://powerplant-security-system-api.herokuapp.com/api/v1/events/end
- Payload/Body: {
-  "radiation": how much radiation we have accumulated during our shift.
-  }
+  Payload/Body:
+  - "radiation": how much radiation we have accumulated during our shift.
