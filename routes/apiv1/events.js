@@ -193,6 +193,8 @@ router.post(
       console.error(err.message);
       return res.status(500).json({
         msg: 'Server Error',
+        kind: err.kind,
+        err,
       });
     }
   },
