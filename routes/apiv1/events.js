@@ -84,7 +84,13 @@ router.post(
 
       if (!event) return res.status(404).json({ msg: 'Event not found' });
 
-      event.hazmat.unshift({ isOn });
+      if (event.hazmat.length <= 0) {
+        event.hazmat.unshift({ isOn });
+      } else {
+        if (event.hazmat[0].isOn !== isOn) {
+          event.hazmat.unshift({ isOn });
+        }
+      }
 
       await event.save();
 
@@ -169,7 +175,13 @@ router.post(
 
       if (!event) return res.status(404).json({ msg: 'Event not found' });
 
-      event.room.unshift({ currentRoom });
+      if (event.room.length <= 0) {
+        event.room.unshift({ currentRoom });
+      } else {
+        if (event.room[0].currentRoom !== currentRoom) {
+          event.room.unshift({ currentRoom });
+        }
+      }
 
       await event.save();
 
