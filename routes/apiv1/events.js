@@ -123,9 +123,13 @@ router.post(
 
       if (!event) return res.status(404).json({ msg: 'Event not found' });
 
-      // If the value actually has changed.
-      if (event.k[0] !== value) {
+      if (event.k.length <= 0) {
         event.k.unshift({ value });
+      } else {
+        // If the value actually has changed.
+        if (event.k[0].value !== value) {
+          event.k.unshift({ value });
+        }
       }
 
       await event.save();
