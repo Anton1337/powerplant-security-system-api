@@ -227,7 +227,8 @@ router.post(
 
       await event.save();
 
-      res.json(event);
+      const events = await Event.find().sort({ date: -1 });
+      res.json(events);
     } catch (err) {
       if (err.kind == 'ObjectId')
         return res.status(404).json({ msg: 'Event not found' });
